@@ -39,4 +39,4 @@ app.post('/api/pokemons', (req, res) => {
 
 app.listen(port, () => console.log(`Notre application node est démarrée sur : http://localhost:${port}`))
 
-// console.log("J'en suis a 1 h 43 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")
+// console.log("J'en suis a 2 h 33 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")
