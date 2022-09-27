@@ -1,5 +1,5 @@
 {
-  "name": "node-pokemon-api",
+  "name": "pokemon-api",
   "version": "1.0.0",
   "description": "An awesome API rest to handle some pokemons.",
   "main": "app.js",
@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/MathisPastreNelson/Node-Pokemon-API#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
   }
 }

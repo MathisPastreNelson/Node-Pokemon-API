@@ -1,11 +1,25 @@
 const express = require("express")
-const { success } = require("./helper.js")
+const morgan = require("morgan")
+const favicon = require("serve-favicon")
+const bodyParser = require("body-parser")
+const { success, getUniqueId } = require("./helper.js")
 let pokemons = require("./mock-pokemon")
 
 const app = express()
 const port = 3000
 
+app
+    .use(favicon(__dirname + "/favicon.ico"))
+    .use(morgan('dev'))
+    .use(bodyParser.json())
+
+// Les routes
 app.get('/', (req, res) => res.send("Hello again express !"))
+// On retourne la liste des pokémons au format JSON, avec un message :
+app.get('/api/pokemons', (req, res) => {
+    const message = 'La liste des pokémons a bien été récupérée.'
+    res.json(success(message, pokemons))
+})
 
 app.get("/api/pokemons/:id", (req, res) => {
     const id = parseInt(req.params.id)
@@ -14,11 +28,15 @@ app.get("/api/pokemons/:id", (req, res) => {
     res.json(success(message, pokemon))
 })
 
-//Nouveau point de terminaison, affichant le nombre total de pokémons :
-app.get('/api/pokemons', (req, res) => {
-    res.send(`Il y a ${pokemons.length} pokémons dans le pokédex pour le moment.`)
+// Création d'un nouveau pokémon
+app.post('/api/pokemons', (req, res) => {
+    const id = getUniqueId(pokemons)
+    const pokemonCreated = { ...req.body, ...{ id: id, created: new Date() } }
+    pokemons.push(pokemonCreated)
+    const message = `Le pokémon ${pokemonCreated.name} a bien été crée.`
+    res.json(success(message, pokemonCreated))
 })
 
 app.listen(port, () => console.log(`Notre application node est démarrée sur : http://localhost:${port}`))
 
-console.log("J'en suis a 1 h 43 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")
+// console.log("J'en suis a 1 h 43 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")
