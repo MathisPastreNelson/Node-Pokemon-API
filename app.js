@@ -15,20 +15,22 @@ app
 
 // Les routes
 app.get('/', (req, res) => res.send("Hello again express !"))
+
 // On retourne la liste des pokémons au format JSON, avec un message :
 app.get('/api/pokemons', (req, res) => {
-    const message = 'La liste des pokémons a bien été récupérée.'
+    const message = `La liste des pokémons a bien été récupérée, il y en a ${pokemons.length}.`
     res.json(success(message, pokemons))
 })
 
+// Route pour un pokemon unique en fonction de son ID
 app.get("/api/pokemons/:id", (req, res) => {
     const id = parseInt(req.params.id)
     const pokemon = pokemons.find(pokemon => pokemon.id === id)
-    const message = "Un pokémon a bien été trouvé."
+    const message = `Un ${pokemon.name} a bien été trouvé.`
     res.json(success(message, pokemon))
 })
 
-// Création d'un nouveau pokémon
+// Post d'un nouveau pokémon
 app.post('/api/pokemons', (req, res) => {
     const id = getUniqueId(pokemons)
     const pokemonCreated = { ...req.body, ...{ id: id, created: new Date() } }
