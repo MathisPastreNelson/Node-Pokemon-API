@@ -61,4 +61,4 @@ app.delete('/api/pokemons/:id', (req, res) => {
 
 app.listen(port, () => console.log(`Notre application node est démarrée sur : http://localhost:${port}`))
 
-// console.log("J'en suis a 2 h 33 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")
+// console.log("J'en suis a 2 h 47 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")
