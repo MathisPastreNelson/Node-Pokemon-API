@@ -2,16 +2,47 @@ const express = require("express")
 const morgan = require("morgan")
 const favicon = require("serve-favicon")
 const bodyParser = require("body-parser")
+const { Sequelize, DataTypes } = require("sequelize")
 const { success, getUniqueId } = require("./helper.js")
 let pokemons = require("./mock-pokemon")
+const PokemonModel = require("./src/models/pokemon")
 
 const app = express()
 const port = 3000
+
+const sequelize = new Sequelize('pokedex', 'root', '', {
+    host: 'localhost',
+    dialect: 'mariadb',
+    dialectOptions: {
+        timezone: 'Etc/GMT-2',
+    },
+    logging: false
+})
+
+sequelize.authenticate()
+    .then(_ => console.log("La connexion à la base de donnée a bien été établie"))
+    .catch(error => console.log(`Impossible de se connecter à la base de données ${error}`))
+
+const Pokemon = PokemonModel(sequelize, DataTypes)
+
+sequelize.sync({ force: true })
+    .then(_ => {
+        console.log("La base de données 'Pokedex' a bien été synchronisée.")
+
+        Pokemon.create({
+            name: 'Bulbizarre',
+            hp: 25,
+            cp: 5,
+            picture: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
+            types: ["Plante", "Poison"].join()
+        }).then(bulbizzare => console.log(bulbizzare.toJSON()))
+    })
 
 app
     .use(favicon(__dirname + "/favicon.ico"))
     .use(morgan('dev'))
     .use(bodyParser.json())
+
 
 // Les routes
 app.get('/', (req, res) => res.send("Hello again express !"))
@@ -61,4 +92,4 @@ app.delete('/api/pokemons/:id', (req, res) => {
 
 app.listen(port, () => console.log(`Notre application node est démarrée sur : http://localhost:${port}`))
 
-// console.log("J'en suis a 2 h 47 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")
+// console.log("J'en suis a 3 h 43 de la vidéo https://www.youtube.com/watch?v=NRxzvpdduvQ&ab_channel=SimonDieny-ReconversionFullstackJavaScript")

@@ -18,6 +18,8 @@
   "homepage": "https://github.com/MathisPastreNelson/Node-Pokemon-API#readme",
   "dependencies": {
     "express": "^4.18.1",
+    "mariadb": "^3.0.1",
+    "sequelize": "^6.23.2",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
